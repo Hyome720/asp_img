@@ -1,0 +1,43 @@
+.list-table {
+    margin: auto;
+}
+
+a {
+    text-decoration: none;
+}
+a:link {
+    color: #000080;
+}
+
+a:visited {
+    color: #7D7C4F;
+}
+
+a:hover {
+    color: #CBCAAD;
+    text-decoration: underline;
+}
+
+.list-td-01 {
+    width: 10%;
+    background-color: #000080;
+    text-align: center;
+    height: 25px;
+    color: #fff;
+}
+
+.list-td-02 {
+    width: 20%;
+    background-color: #000080;
+    text-align: center;
+    height: 25px;
+    color: #fff;
+}
+
+.list-td-04 {
+    width: 40%;
+    background-color: #000080;
+    text-align: center;
+    height: 25px;
+    color: #fff;
+}

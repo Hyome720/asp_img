@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function sendIt() {
+            let str
+            str = document.registerForm.mem_name.value
+            if (str == "") {
+                alert("이름을 입력해주세요")
+                document.registerForm.mem_name.focus()
+                return true
+            }
+
+            str = document.registerForm.mem_id.value
+            if (str == "" || str.length < 4) {
+                alert("아이디를 입력하지 않으셨거나 4글자 미만입니다.")
+                document.registerForm.mem_id.focus()
+                return true
+            }
+
+            str = document.registerForm.mem_pwd1.value
+            if (str == "" || str.length < 6) {
+                alert("비밀번호를 입력하지 않으셨거나 6글자 미만입니다.")
+                document.registerForm.mem_pwd1.focus()
+                return true
+            }
+
+            if (document.registerForm.mem_pwd1.value != document.registerForm.mem_pwd2.value) {
+                alert("비밀번호가 일치하지 않습니다. 다시 확인해주세요")
+                document.registerForm.mem_pwd2.focus()
+                return true
+            }
+
+            str = document.registerForm.mem_email.value
+            if (str == "") {
+                alert("메일 주소를 입력해주세요")
+                document.registerForm.mem_email.focus()
+                return true
+            }
+
+            const ssn1 = document.registerForm.mem_ssn1.value
+            const ssn2 = document.registerForm.mem_ssn2.value
+
+            if (ssn1.length != 6 || ssn2.length != 7) {
+                alert("주민등록번호가 이상해요")
+                document.registerForm.ssn1.focus()
+                return true
+            }
+
+            document.registerForm.submit()
+            return true
+        }
+
+        function onlyNumber() {
+            if(event.keyCode < 48 || event.keyCode > 57) {
+                event.returnValue = false
+                alert('숫자만 입력가능합니다!')
+                document.registerForm.focus.ssn1.focus()
+            }
+        }
+    </script>
+    <div>
+        <h2>회원 가입</h2>
+        <div>
+            <form method="post" name="registerForm" action="register_ok.asp">
+                <table>
+                    <tr>
+                        <td>
+                            <p>이름</p>
+                        </td>
+                        <td>
+                            <input type="text" name="mem_name" maxlength="10">
+                            &nbsp;
+                            <span>실명(한글명)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>사용자 ID</p>
+                        </td>
+                        <td>
+                            <input type="text" name="mem_id" maxlength="10">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>비밀번호</p>
+                        </td>
+                        <td>
+                            <input type="password" name="mem_pwd1" maxlength="20">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>비밀번호 확인</p>
+                        </td>
+                        <td>
+                            <input type="password" name="mem_pwd2" maxlength="20">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>주민등록번호</td>
+                        <td>
+                            <input type="text" size="6" name="mem_ssn1" maxlength="6" onKeyPress="onlyNumber()">
+                            -
+                            <input type="text" size="6" name="mem_ssn2" maxlength="7" onKeyPress="onlyNumber()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>성별</p>
+                        </td>
+                        <td>
+                            <input type="radio" name="mem_sex" value="male" checked>남자
+                            <input type="radio" name="mem_sex" value="female">여자
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>직업</p>
+                        </td>
+                        <td>
+                            <select name="mem_job" size="1">
+                                <option value="not">무슨 일을 하시나요?</option>
+                                <option value="직장인">직장인</option>
+                                <option value="학생">학생</option>
+                                <option value="무직">무직</option>
+                                <option value="대학원생">대학원생</option>
+                                <option value="교수">교수</option>
+                                <option value="기타">기타</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>이메일 주소</p>
+                        </td>
+                        <td>
+                            <input type="text" size="32" name="mem_email" maxlength="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>자기소개</p>
+                        </td>
+                        <td>
+                            <textarea name="mem_intro" cols="30" rows="20" wrap="physical"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <input type="button" value="회원 가입" name="mem_B1" onClick="sendIt()">
+                    <input type="button" value="가입 취소" onClick="history.back()">
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
