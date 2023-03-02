@@ -7,13 +7,13 @@ response.charset = "EUC-KR"
 Set db = Server.CreateObject("ADODB.Connection")
 db.Open("DSN=localsqldb;UID=sa;PWD=1234;")
 
-updateSql = "UPDATE Board_Re SET readnum = readnum + 1"
+updateSql = "UPDATE Board_Img SET readnum = readnum + 1"
 updateSql = updateSql & " WHERE board_idx = " & request("idx")
 
 db.execute(updateSql)
 
 Set rs = Server.CreateObject("ADODB.Recordset")
-sql = "SELECT * FROM Board_Re WHERE board_idx=" & request("idx")
+sql = "SELECT * FROM Board_Img WHERE board_idx=" & request("idx")
 
 rs.Open sql, db, 1, 1
 
@@ -22,10 +22,11 @@ ref = rs("ref")
 re_level = rs("re_level")
 re_step = rs("re_step")
 board_content = replace(rs("board_content"), chr(13) & chr(10), "<br>")
+file_name = rs("file_name")
 
 rs.Close
 
-sql = "SELECT * FROM Board_Re"
+sql = "SELECT * FROM Board_Img"
 sql = sql & " WHERE ref = " & ref & " ORDER BY ref DESC, re_step ASC"
 
 Set rs = Server.CreateObject("ADODB.Recordset")
@@ -89,8 +90,11 @@ rs.Open sql, db
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <p>제목 : </p>
+                        <td class="td-100 td-left">
+                            <p class="td-text">제목 : </p>
+                        </td>
+                        <td class="td-180 td-right">
+                            <p><%=rs("title")%></p>
                         </td>
                     </tr>
                     <tr>
@@ -101,6 +105,13 @@ rs.Open sql, db
                 </table>
             </div>
         </div>
+        <% if file_name = "" or isNull(file_name) then %>
+        <% else %>
+        <hr>
+        <p>첨부파일이 있습니다.</p>
+        <a href="\asp_img\img\<%=file_name%>" download=""><%=file_name%> 다운로드</a>
+        <hr>
+        <% end if %>
         <p>
             <a href="javascript:sendRe()">
                 &lt;답변하기&gt;

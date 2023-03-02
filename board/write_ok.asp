@@ -2,15 +2,22 @@
 <%
 response.codepage = 949
 response.charset = "EUC-KR"
-' response.CodePage = 65001
-' response.charset = "UTF-8"
+
+Set uploadform = Server.CreateObject("DEXT.FileUpload")
+uploadform.DefaultPath = "C:\inetpub\wwwroot\asp_img\img"
+content = uploadform("board_content")
+file_name = uploadform.FileName
 ' request 개체를 통해 넘어온 값을 변수에 저장
-name = request("name")
-email = request("email")
-homepage = request("homepage")
-title = request("title")
-pwd = request("pwd")
-board_content = request("board_content")
+name = uploadform("name")
+email = uploadform("email")
+homepage = uploadform("homepage")
+title = uploadform("title")
+pwd = uploadform("pwd")
+board_content = uploadform("board_content")
+
+uploadform.Save ' uploadform("file1").Save 라고 해도 됨.
+
+Set uploadform = Nothing
 
 title = replace(title, "'", "'")
 title = replace(title, "&", "&amp;")
@@ -32,7 +39,7 @@ set db = Server.CreateObject("ADODB.Connection")
 db.Open("DSN=localsqldb;UID=sa;PWD=1234;")
 
 ' 가져오려고 하는 데이터 쿼리문
-sql = "SELECT MAX(num) FROM  Board_Re"
+sql = "SELECT MAX(num) FROM Board_Img"
 ' 레코드셋 개체의 인스턴스 생성
 set rs = Server.CreateObject("ADODB.Recordset")
 ' 지정한 쿼리로 DB연결해서 레코드셋에 데이터 저장
@@ -45,13 +52,13 @@ else
 end if
 
 ' 답변하기 일 경우
-if request("board_idx") <> "" then
+if Request.QueryString("board_idx") <> "" then
 
-    ref = Cint(request("ref"))
-    re_step = Cint(request("re_step"))
-    re_level = Cint(request("re_level"))
+    ref = Cint(Request.QueryString("ref"))
+    re_step = Cint(Request.QueryString("re_step"))
+    re_level = Cint(Request.QueryString("re_level"))
 
-    sqlString = "UPDATE Board_Re SET re_step = re_step + 1"
+    sqlString = "UPDATE Board_Img SET re_step = re_step + 1"
     sqlString = sqlString & " WHERE ref = " & ref & " AND re_step > " & re_step
     db.execute(sqlString)
 
@@ -66,8 +73,8 @@ else
 
 end if
 
-sql = "INSERT INTO Board_Re (name, email, homepage, title, board_content, num,"
-sql = sql & "readnum, writeday, ref, re_step, re_level, pwd) VALUES "
+sql = "INSERT INTO Board_Img (name, email, homepage, title, board_content, num,"
+sql = sql & "readnum, writeday, ref, re_step, re_level, file_name, pwd) VALUES "
 sql = sql & "('" & name & "'"
 sql = sql & ",'" & email & "'"
 sql = sql & ",'" & homepage & "'"
@@ -78,6 +85,7 @@ sql = sql & ",0,'" & date() & "'"
 sql = sql & "," & ref
 sql = sql & "," & re_step
 sql = sql & "," & re_level
+sql = sql & ",'" & file_name & "'"
 sql = sql & ",'" & pwd & "')"
 
 ' db에 insert 쿼리를 보내 데이터 추가
@@ -88,14 +96,7 @@ db.close
 set rs = nothing
 set db = nothing
 
-response.redirect "list.asp"
-
-Response.Write "your name is " & name & "<br>"
-Response.Write "메일 주소는 " & email & "<br>"
-Response.Write "홈페이지 주소는 " & homepage & "<br>"
-Response.Write "글 제목은 " & title & "<br>"
-Response.Write "글 내용은 " & board_content & "<br>"
-Response.Write "비밀번호는 " & pwd & "<br>" 
+Response.Redirect "list.asp"
 %>
 <html>
 <body>

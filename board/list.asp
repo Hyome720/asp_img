@@ -18,7 +18,7 @@ Set db = Server.CreateObject("ADODB.Connection")
 ' DB 열기
 db.Open("DSN=localsqldb;UID=sa;PWD=1234;")
 ' 모든 데이터 가져오기
-sql = "SELECT * from Board_Re ORDER BY ref DESC, re_step ASC"
+sql = "SELECT * from Board_Img ORDER BY ref DESC, re_step ASC"
 ' 레코드셋 개체의 인스턴스 생성
 Set rs = Server.CreateObject("ADODB.Recordset")
 ' 페이지 사이즈 지정. 레코드셋 오픈 전에 지정

@@ -29,12 +29,12 @@ Set db = Server.CreateObject("ADODB.Connection")
 db.Open("DSN=localsqldb;UID=sa;PWD=1234;")
 
 ' 현재 글의 비밀번호 가져오기 비밀번호를 체크
-sql = "SELECT pwd FROM Board_Re WHERE board_idx = " & board_idx
+sql = "SELECT pwd FROM Board_Img WHERE board_idx = " & board_idx
 Set rs = db.execute(sql)
 
 ' 비밀번호 비교
 If Request("pwd") = rs("pwd") Then
-    sql = "UPDATE Board_Re SET name = '" & name & "'"
+    sql = "UPDATE Board_Img SET name = '" & name & "'"
     sql = sql & ", title = '" & title & "'"
     sql = sql & ", email = '" & email & "'"
     sql = sql & ", board_content = '" & board_content & "'"

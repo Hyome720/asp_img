@@ -7,7 +7,7 @@ response.charset = "EUC-KR"
 Set db = Server.CreateObject("ADODB.Connection")
 db.Open("DSN=localsqldb; UID=sa; PWD=1234;")
 
-sql = "SELECT * FROM Board_Re WHERE board_idx=" & request("idx")
+sql = "SELECT * FROM Board_Img WHERE board_idx=" & request("idx")
 
 Set rs = Server.CreateObject("ADODB.Recordset")
 rs.Open sql, db

@@ -3,7 +3,7 @@ if request("board_idx") <> "" then
     Set db = Server.CreateObject("ADODB.Connection")
     db.Open("DSN=localsqldb;UID=sa;PWD=1234;")
 
-    sql = "SELECT title, board_content FROM Board_Re"
+    sql = "SELECT title, board_content FROM Board_Img"
     sql = sql & " WHERE board_idx = " & request("board_idx")
 
     Set grs = Server.CreateObject("ADODB.Recordset")
@@ -58,7 +58,7 @@ end if
         }
     </script>
     <div style="align-items:left">
-        <form name="myform" method="post" action="./write_ok.asp">
+        <form name="myform" method="post" action="./write_ok.asp" ENCTYPE="multipart/form-data">
             <input type="hidden" name="board_idx" value="<%=request("board_idx")%>">
             <input type="hidden" name="ref" value="<%=request("ref")%>">
             <input type="hidden" name="re_step" value="<%=request("re_step")%>">
@@ -130,6 +130,16 @@ end if
                                     </td>
                                     <td class="write-td-right">
                                         <textarea wrap="hard" rows="10" name="board_content" cols="55" style="border: 1 dashed;"><%=board_content%></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong class="write-text-strong">
+                                            파일 선택
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <input type="file" name="file_name">
                                     </td>
                                 </tr>
                                 <tr>
